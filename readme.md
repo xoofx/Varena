@@ -2,7 +2,7 @@
 
 <img align="right" width="160px" height="160px" src="img/varena.png">
 
-Varena provides a fast and lightweight arena allocator using virtual memory.
+Varena is a .NET library that provides a fast and lightweight arena allocator using virtual memory.
   
 ## Features
 
