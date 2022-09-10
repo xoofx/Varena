@@ -10,8 +10,33 @@ on:
   pull_request:
 
 jobs:
+  build-posix:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        submodules: true
+        fetch-depth: 0
+
+    - name: Install .NET 6.0
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '6.0.x'
+
+    - name: Build, Test, Pack
+      shell: bash
+      run: |
+        dotnet tool install -g dotnet-releaser
+        dotnet-releaser build src/dotnet-releaser.toml
+
   build:
     runs-on: windows-latest
+    needs: build-posix
 
     steps:
     - name: Checkout
