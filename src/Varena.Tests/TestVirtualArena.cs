@@ -74,8 +74,8 @@ public class TestVirtualArena
         using var manager = new VirtualArenaManager();
         var buffer = manager.CreateBuffer("Hello", 1 << 20);
         var span = buffer.AllocateRange(1024);
-        buffer.Protect(VirtualMemoryFlags.All);
-        Assert.AreEqual(VirtualMemoryFlags.All, buffer.Flags);
+        buffer.Protect(VirtualMemoryFlags.ReadWrite);
+        Assert.AreEqual(VirtualMemoryFlags.ReadWrite, buffer.Flags);
         span[0] = 1;
         buffer.Protect(VirtualMemoryFlags.Read);
 

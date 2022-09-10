@@ -43,7 +43,15 @@ internal sealed class PosixVirtualMemoryHandler : VirtualMemoryHandler
     {
         var protect = MemoryProtection.PROT_NONE;
 
-        if ((flags & VirtualMemoryFlags.Execute) != 0) protect |= MemoryProtection.PROT_EXEC;
+        if ((flags & VirtualMemoryFlags.Execute) != 0)
+        {
+            protect |= MemoryProtection.PROT_EXEC;
+            // On MacOS, using exec cannot be used with read/write
+            if (OperatingSystem.IsMacOS())
+            {
+                return protect;
+            }
+        }
         if ((flags & VirtualMemoryFlags.Read) != 0) protect |= MemoryProtection.PROT_READ;
         if ((flags & VirtualMemoryFlags.Write) != 0) protect |= MemoryProtection.PROT_WRITE;
         return protect;

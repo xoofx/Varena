@@ -40,7 +40,7 @@ namespace Varena.Tests
                              VirtualMemoryFlags.Write,
                          })
                 {
-                    Assert.IsTrue(handler.TryProtect(range, flags));
+                    Assert.IsTrue(handler.TryProtect(range, flags), $"Unable to protect {flags}");
                 }
             }
             finally
