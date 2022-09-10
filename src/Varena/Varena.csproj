@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Description>Varena provides a fast and lightweight arena allocator using virtual memory.</Description>
+    <Copyright>Alexandre Mutel</Copyright>
+    <NeutralLanguage>en-US</NeutralLanguage>
+    <Authors>Alexandre Mutel</Authors>
+    <PackageTags>allocator;virtual-memory;arena</PackageTags>
+    <PackageIcon>varena.png</PackageIcon>
+    <PackageReadmeFile>readme.md</PackageReadmeFile>
+    <PackageProjectUrl>https://github.com/xoofx/Varena</PackageProjectUrl>
+    <PackageLicenseExpression>BSD-2-Clause</PackageLicenseExpression>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <!--Add support for sourcelink-->
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="../../img/varena.png" Pack="true" PackagePath="" />
+    <None Include="../../readme.md" Pack="true" PackagePath="/" />
+    <PackageReference Include="MinVer" Version="4.2.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.*" PrivateAssets="All" />
+  </ItemGroup>
+</Project>

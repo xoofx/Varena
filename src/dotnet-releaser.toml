@@ -1,0 +1,5 @@
+[msbuild]
+project = "Varena.sln"
+[github]
+user = "xoofx"
+repo = "Varena"
