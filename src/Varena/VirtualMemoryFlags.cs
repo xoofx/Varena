@@ -38,5 +38,9 @@ public enum VirtualMemoryFlags
     /// <summary>
     /// The memory can be read, written to and executed.
     /// </summary>
+    /// <remarks>
+    /// Warning: on macOS, this protection is converted to Execute only.
+    /// </remarks>
+    [Obsolete("This enum will be removed in a future version. Use ReadWrite or Execute exclusively. 'All' is not supported on macOS and converted to Execute only.")]
     All = ReadWrite | Execute,
 }

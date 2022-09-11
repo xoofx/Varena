@@ -21,7 +21,9 @@ public static class VirtualMemoryHelper
     {
         return flags switch
         {
+#pragma warning disable CS0618
             VirtualMemoryFlags.All => "rwx",
+#pragma warning restore CS0618
             VirtualMemoryFlags.Read => "r--",
             VirtualMemoryFlags.Write => "-w-",
             VirtualMemoryFlags.ReadWrite => "rw-",
