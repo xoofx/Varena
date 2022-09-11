@@ -138,7 +138,7 @@ var span = array.AllocateRange(1024);
 
 ## Common methods
 
-A `VirtualBuffer` or `VirtualArray<T>` supports som common methods.
+A `VirtualBuffer` or `VirtualArray<T>` supports some common methods.
 
 ### Allocate with output index
 
