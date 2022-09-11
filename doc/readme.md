@@ -210,7 +210,7 @@ The arena is no longer usable after this method is called. The arena is also rem
 
 The granularity size of an arena is a multiple of an OS Page Size (`VirtualArenaManager.Handler.PageSize`), usually `4 KiB` on Windows or Linux, but can be different (e.g `16 KiB` on macOS Apple Silicon).
 
-By default, Varena will commit memory by block of `64 KiB`. This value is taken to avoid calling the OS for committing the memory. So for example, on Windows and Linux, it is committing `16` pages of `4 KiB`. This factor is called the `CommitPageSizeMultiplier`.
+By default, Varena will commit memory by block of `64 KiB`. This value is taken to avoid calling the OS too frequently for committing the memory (so less kernel context switch). So for example, on Windows and Linux, it is committing `16` pages of `4 KiB`. This factor is called the `CommitPageSizeMultiplier`.
 
 The `CommitPageSizeMultiplier` can be configured at two levels:
 
