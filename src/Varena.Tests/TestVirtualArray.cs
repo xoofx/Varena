@@ -47,6 +47,11 @@ namespace Varena.Tests
             Assert.AreEqual(guid, allGuids[2]);
             Assert.AreEqual(guid2, allGuids[3]);
 
+            // Test AsSpan index/count
+            var someGuids = buffer.AsSpan(1, 2);
+            Assert.AreEqual(guid2, someGuids[0]);
+            Assert.AreEqual(guid, someGuids[1]);
+
             // Test AllocateRange(index)
             var rangeGuid2 = buffer.AllocateRange(2, out var rangeIndex);
             Assert.AreEqual(4, rangeIndex);
