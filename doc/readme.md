@@ -36,7 +36,7 @@ The following diagram shows the different parts of an arena in Varena:
 > 
 >  A `List<T>` is using under the hood a managed array `T[]` of a certain capacity to store the "count" elements of the list.
 > 
-> When you add elements to the list, it will put elements into the array until we array is full. In that case, it will:
+> When you add elements to the list, it will put elements into the array until the array is full. In that case, it will:
 > * allocate a new array (usually by doubling the size of the previous array).
 > * copy the content of the previous array to the new larger array.
 > * place the new element to add into the new array.
