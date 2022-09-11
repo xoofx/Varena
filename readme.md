@@ -6,8 +6,8 @@ Varena is a .NET library that provides a fast and lightweight arena allocator us
   
 ## Features
 
-- Create very large continuous byte buffers and arrays (e.g 1 TiB) of data without committing to the virtual memory.
-  - Only allocates what is used!
+- Create very large continuous byte buffers and arrays (e.g 1 TiB) of data without committing the virtual memory to the physical memory.
+  - Only use the memory that is allocated, not the total capacity reserved!
 - Fast bump allocator with a commit per block (default is 64 KiB of memory committed)
 - Use `VirtualBuffer` for manipulating bytes.
 - Use `VirtualArray<T>` for manipulating a dynamic array of unmanaged data.
