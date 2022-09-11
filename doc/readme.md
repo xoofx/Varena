@@ -184,7 +184,7 @@ var x  =buffer[0]
 buffer.Protect(VirtualMemoryFlags.ReadWrite);
 ```
 
-This method changes the protection of the entire committed memory.
+This method changes the protection of the entire committed memory. Using `VirtualMemoryFlags.None` disallow any read or write access to the committed memory.
 
 ### Reset
 

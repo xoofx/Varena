@@ -28,7 +28,6 @@ namespace Varena.Tests
 
                 Assert.IsTrue(handler.TryCommit(range, VirtualMemoryFlags.All));
 
-
                 // These are the only one that we support on Windows so we don't try
                 // the other permutations (e.g Write+Execute)
                 foreach (var flags in new[]
@@ -38,6 +37,7 @@ namespace Varena.Tests
                              VirtualMemoryFlags.Execute | VirtualMemoryFlags.Read,
                              VirtualMemoryFlags.Read,
                              VirtualMemoryFlags.Write,
+                             VirtualMemoryFlags.None,
                          })
                 {
                     Assert.IsTrue(handler.TryProtect(range, flags), $"Unable to protect {flags}");

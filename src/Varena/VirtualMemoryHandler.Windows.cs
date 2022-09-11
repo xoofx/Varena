@@ -40,6 +40,11 @@ internal sealed class WindowsVirtualMemoryHandler : VirtualMemoryHandler
 
     private static MemoryProtection GetMemoryProtection(VirtualMemoryFlags flags)
     {
+        if (flags == VirtualMemoryFlags.None)
+        {
+            return MemoryProtection.NoAccess;
+        }
+
         if ((flags & VirtualMemoryFlags.Execute) != 0)
         {
             if ((flags & (VirtualMemoryFlags.Write)) != 0) return MemoryProtection.ExecuteReadWrite;

@@ -47,8 +47,6 @@ public abstract class VirtualMemoryHandler
     /// <returns><c>true</c> if successful; <c>false</c> otherwise.</returns>
     public bool TryCommit(VirtualMemoryRange range, VirtualMemoryFlags flags)
     {
-        // We don't support set to none the memory
-        if (flags == VirtualMemoryFlags.None) return false;
         VerifyRange(range);
         return TryCommitImpl(range, flags);
     }
@@ -72,8 +70,6 @@ public abstract class VirtualMemoryHandler
     /// <returns><c>true</c> if successful; <c>false</c> otherwise.</returns>
     public bool TryProtect(VirtualMemoryRange range, VirtualMemoryFlags flags)
     {
-        // We don't support set to none the memory
-        if (flags == VirtualMemoryFlags.None) return false;
         VerifyRange(range);
         return TryProtectImpl(range, flags);
     }

@@ -43,6 +43,11 @@ internal sealed class PosixVirtualMemoryHandler : VirtualMemoryHandler
     {
         var protect = MemoryProtection.PROT_NONE;
 
+        if (flags == VirtualMemoryFlags.None)
+        {
+            return protect;
+        }
+        
         if ((flags & VirtualMemoryFlags.Execute) != 0)
         {
             protect |= MemoryProtection.PROT_EXEC;
