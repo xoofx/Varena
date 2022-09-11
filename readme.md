@@ -37,6 +37,10 @@ var span3 = arena2.AllocateRange(1024);
 span3[0] = Guid.NewGuid();
 ```
 
+### Documentation
+
+You will find more details about how to use Varena in this [user guide](https://github.com/xoofx/Varena/blob/main/doc/readme.md).
+
 ## License
 
 This software is released under the [BSD-Clause 2 license](https://opensource.org/licenses/BSD-2-Clause). 
