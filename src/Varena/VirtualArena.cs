@@ -110,12 +110,49 @@ public abstract class VirtualArena : IDisposable
     /// <exception cref="VirtualMemoryException">If this method fails to uncommit the memory used by this arena.</exception>
     public void Reset()
     {
-        if (CapacityInBytes > 0 && !_handler.TryUnCommit(_range))
+        Reset(VirtualArenaResetKind.Default);
+    }
+
+    /// <summary>
+    /// Resets the memory allocated by this arena with the specified reset options.
+    /// </summary>
+    /// <param name="resetKind">The kind of reset.</param>
+    /// <exception cref="VirtualMemoryException">If this method fails to uncommit the memory used by this arena.</exception>
+    public void Reset(VirtualArenaResetKind resetKind)
+    {
+        // We decommit only if we have something to decommit.
+        if (CommittedBytes > 0)
         {
-            throw new VirtualMemoryException($"Unable to un-commit the memory range for the arena `{Name}`");
+            bool decommitSuccess = true;
+            switch (resetKind)
+            {
+                case VirtualArenaResetKind.Default:
+                    // We decommit the entire committed bytes
+                    decommitSuccess = _handler.TryUnCommit(new VirtualMemoryRange(this.BaseAddress, _committedBytes));
+                    _committedBytes = 0;
+                    break;
+                case VirtualArenaResetKind.KeepAllCommitted:
+                    break;
+                case VirtualArenaResetKind.KeepMinimalCommitted:
+                    // We decommit only entire committed bytes
+                    var newCommittedBytes = this.CommitPageSizeMultiplier * this._handler.PageSize;
+                    var bytesToDecommit = _committedBytes - newCommittedBytes;
+                    if (bytesToDecommit > 0)
+                    {
+                        decommitSuccess = _handler.TryUnCommit(new VirtualMemoryRange((nint)this.BaseAddress + (nint)(newCommittedBytes), bytesToDecommit));
+                    }
+                    _committedBytes = newCommittedBytes;
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(resetKind), resetKind, null);
+            }
+
+            if (!decommitSuccess)
+            {
+                throw new VirtualMemoryException($"Unable to un-commit the memory range for the arena `{Name}`");
+            }
         }
 
-        _committedBytes = 0;
         _allocatedBytes = 0;
         ResetImpl();
     }

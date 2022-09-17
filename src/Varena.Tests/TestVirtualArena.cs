@@ -23,6 +23,20 @@ public class TestVirtualArena
         var span2 = buffer.AllocateRange(1024);
         Assert.AreEqual((nuint)1024, buffer.AllocatedBytes);
         Assert.AreEqual((nuint)1 << 16, buffer.CommittedBytes);
+        buffer.Reset(VirtualArenaResetKind.KeepMinimalCommitted);
+        Assert.AreEqual((nuint)1 << 16, buffer.CommittedBytes);
+        buffer.Reset(VirtualArenaResetKind.KeepAllCommitted);
+        Assert.AreEqual((nuint)1 << 16, buffer.CommittedBytes);
+
+        // Allocate a bit more than one commit block
+        buffer.AllocateRange(1024 + (1 << 16));
+        Assert.AreEqual((nuint)2 << 16, buffer.CommittedBytes);
+        buffer.Reset(VirtualArenaResetKind.KeepAllCommitted);
+        Assert.AreEqual((nuint)2 << 16, buffer.CommittedBytes);
+        buffer.Reset(VirtualArenaResetKind.KeepMinimalCommitted);
+        Assert.AreEqual((nuint)1 << 16, buffer.CommittedBytes);
+
+        Assert.Throws<ArgumentOutOfRangeException>(() => buffer.Reset((VirtualArenaResetKind)123));
     }
 
     [Test]
