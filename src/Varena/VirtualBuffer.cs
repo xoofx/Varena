@@ -2,6 +2,8 @@
 // Licensed under the BSD-Clause 2 license.
 // See license.txt file in the project root for full license information.
 
+using System.Runtime.CompilerServices;
+
 namespace Varena;
 
 /// <summary>
@@ -61,6 +63,32 @@ public sealed class VirtualBuffer : VirtualArena
     {
         firstIndex = AllocatedBytes;
         return AllocateRange(count);
+    }
+
+    /// <summary>
+    /// Appends the specified value to this buffer.
+    /// </summary>
+    /// <param name="value">The value to append.</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public unsafe void Append(byte value)
+    {
+        *(byte*)UnsafeAllocate(1) = value;
+    }
+
+    /// <summary>
+    /// Appends the specified range to this buffer.
+    /// </summary>
+    /// <param name="range">The range of values to append.</param>
+    /// <returns>The span of the appended memory.</returns>
+    public Span<byte> AppendRange(ReadOnlySpan<byte> range)
+    {
+        if (range.Length == 0) return new Span<byte>();
+        unsafe
+        {
+            var toSpan = new Span<byte>(UnsafeAllocate((nuint)range.Length), range.Length);
+            range.CopyTo(toSpan);
+            return toSpan;
+        }
     }
 
     /// <summary>

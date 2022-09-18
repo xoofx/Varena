@@ -107,6 +107,55 @@ public sealed class VirtualArray<T> : VirtualArena where T: unmanaged
     }
 
     /// <summary>
+    /// Appends a single element.
+    /// </summary>
+    /// <param name="value">The value to append.</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void Append(T value)
+    {
+        unsafe
+        {
+            ref var localRef = ref *(T*)base.UnsafeAllocate((nuint)sizeof(T));
+            localRef = value;
+            _count++;
+        }
+    }
+
+    /// <summary>
+    /// Appends a single element by reference (for large structs to avoid a copy on the stack).
+    /// </summary>
+    /// <param name="value">The value to append.</param>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void AppendByRef(in T value)
+    {
+        unsafe
+        {
+            ref var localRef = ref *(T*)base.UnsafeAllocate((nuint)sizeof(T));
+            localRef = value;
+            _count++;
+        }
+    }
+
+    /// <summary>
+    /// Appends a range of elements.
+    /// </summary>
+    /// <param name="range">The range of elements to append.</param>
+    /// <returns>A span to the range of elements appended.</returns>
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public Span<T> AppendRange(ReadOnlySpan<T> range)
+    {
+        unsafe
+        {
+            var count = range.Length;
+            if (count == 0) return Span<T>.Empty;
+            var span = new Span<T>(base.UnsafeAllocate((nuint)count * (uint)sizeof(T)), count);
+            range.CopyTo(span);
+            _count += count;
+            return span;
+        }
+    }
+
+    /// <summary>
     /// Gets the span over all the elements allocated.
     /// </summary>
     /// <returns>The span over all the elements allocated.</returns>

@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System;
 
 namespace Varena.Tests
 {
@@ -38,6 +39,32 @@ namespace Varena.Tests
             Assert.AreEqual((nuint)0, buffer.AllocatedBytes);
         }
 
+        [Test]
+        public void TestAppend()
+        {
+            using var manager = new VirtualArenaManager();
+            var buffer = manager.CreateBuffer("Bytes", 1 << 20);
+
+            for (int i = 0; i < 1024; i++)
+            {
+                buffer.Append((byte)i);
+            }
+            Assert.AreEqual((nuint)1024, buffer.AllocatedBytes);
+            var span = buffer.AsSpan(0, 1024);
+            for (int i = 0; i < span.Length; i++)
+            {
+                Assert.AreEqual((byte)i, span[i], "Invalid data in the buffer");
+            }
+
+            buffer.Reset(VirtualArenaResetKind.KeepAllCommitted);
+            buffer.AppendRange(new byte[] { 255, 254, 253, 252,});
+
+            Assert.AreEqual((nuint)4, buffer.AllocatedBytes);
+            Assert.AreEqual((byte)255, buffer[0]);
+            Assert.AreEqual((byte)254, buffer[1]);
+            Assert.AreEqual((byte)253, buffer[2]);
+            Assert.AreEqual((byte)252, buffer[3]);
+        }
 
         [Test]
         public void TestInvalidArguments()

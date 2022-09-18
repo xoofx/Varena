@@ -1,4 +1,5 @@
 using NUnit.Framework;
+using System;
 
 namespace Varena.Tests
 {
@@ -79,6 +80,38 @@ namespace Varena.Tests
             Assert.AreEqual((nuint)0, buffer.AvailableInBytes);
 
             Assert.Throws<VirtualMemoryException>(() => buffer.Allocate());
+        }
+
+        [Test]
+        public void TestAppend()
+        {
+            using var manager = new VirtualArenaManager();
+            var array = manager.CreateArray<byte>("Bytes", 1 << 20);
+            for (int i = 0; i < 1024; i++)
+            {
+                if ((i & 1) == 0)
+                {
+                    array.Append((byte)i);
+                }
+                else
+                {
+                    array.AppendByRef((byte)i);
+                }
+            }
+            Assert.AreEqual(1024, array.Count);
+            for (int i = 0; i < array.Count; i++)
+            {
+                Assert.AreEqual((byte)i, array[i]);
+            }
+
+            array.Reset(VirtualArenaResetKind.KeepAllCommitted);
+
+            array.AppendRange(new byte[] { 255, 254, 253, 252 });
+            Assert.AreEqual(4, array.Count);
+            Assert.AreEqual((byte)255, array[0]);
+            Assert.AreEqual((byte)254, array[1]);
+            Assert.AreEqual((byte)253, array[2]);
+            Assert.AreEqual((byte)252, array[3]);
         }
 
         [Test]
