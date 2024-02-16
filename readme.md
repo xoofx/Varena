@@ -1,4 +1,4 @@
-# Varena [![Build Status](https://github.com/xoofx/Varena/workflows/ci/badge.svg?branch=main)](https://github.com/xoofx/Varena/actions) [![Coverage Status](https://coveralls.io/repos/github/xoofx/Varena/badge.svg?branch=main)](https://coveralls.io/github/xoofx/Varena?branch=main) [![NuGet](https://img.shields.io/nuget/v/Varena.svg)](https://www.nuget.org/packages/Varena/)
+# Varena[![ci](https://github.com/xoofx/Varena/actions/workflows/ci.yml/badge.svg)](https://github.com/xoofx/Varena/actions/workflows/ci.yml) [![Coverage Status](https://coveralls.io/repos/github/xoofx/Varena/badge.svg?branch=main)](https://coveralls.io/github/xoofx/Varena?branch=main) [![NuGet](https://img.shields.io/nuget/v/Varena.svg)](https://www.nuget.org/packages/Varena/)
 
 <img align="right" width="160px" height="160px" src="img/varena.png">
 
