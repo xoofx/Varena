@@ -10,48 +10,7 @@ on:
   pull_request:
 
 jobs:
-  build-posix:
-    strategy:
-      matrix:
-        os: [ubuntu-latest, macos-latest]
-    runs-on: ${{ matrix.os }}
-
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-      with:
-        submodules: true
-        fetch-depth: 0
-
-    - name: Install .NET 8.0
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '8.0.x'
-
-    - name: Build, Test, Pack
-      shell: bash
-      run: |
-        dotnet tool install -g dotnet-releaser --configfile .github/workflows/nuget_org_only.config
-        dotnet-releaser build src/dotnet-releaser.toml
-
   build:
-    runs-on: windows-latest
-    needs: build-posix
-
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v3
-      with:
-        submodules: true
-        fetch-depth: 0
-
-    - name: Install .NET 8.0
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: '8.0.x'
-
-    - name: Build, Test, Pack, Publish
-      shell: bash
-      run: |
-        dotnet tool install -g dotnet-releaser --configfile .github/workflows/nuget_org_only.config
-        dotnet-releaser run --nuget-token "${{secrets.NUGET_TOKEN}}" --github-token "${{secrets.GITHUB_TOKEN}}" src/dotnet-releaser.toml
+    uses: xoofx/.github/.github/workflows/dotnet-multi.yml@main
+    secrets:
+      NUGET_TOKEN: ${{ secrets.NUGET_TOKEN }}
