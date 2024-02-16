@@ -10,7 +10,7 @@ on:
   pull_request:
 
 jobs:
-  build:
+  multi:
     uses: xoofx/.github/.github/workflows/dotnet-multi.yml@main
     secrets:
       NUGET_TOKEN: ${{ secrets.NUGET_TOKEN }}
